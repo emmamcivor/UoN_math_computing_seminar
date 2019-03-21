@@ -32,7 +32,7 @@
 
 \newcommand{\ca}{Ca$^{2+}$\xspace}
 
-\title[Modelling \ca dynamics]{Using GNU parallel: An introduction}
+\title[GNU Parallel]{Using GNU parallel: An introduction}
 \author[Emma McIvor]{Emma McIvor}
 \institute{University of Nottingham}
 \date{\today}
@@ -76,7 +76,7 @@
 \begin{frame}{Running GNU parallel}
 \begin{enumerate}
 \item Make a working directory with the script you want to run in parallel e.g. \texttt{test.m}
-\item Make a parameter list in a \texttt{parameter.txt} file with one set of parameters per line
+\item Make a parameter list in a \texttt{parameter.txt} file with one set of parameters per line inside the working directory
 \item Create the shell scripts to run GNU parallel
 \begin{itemize}
 \item These don't have to be placed in the working directory
@@ -87,7 +87,7 @@
 \end{frame}
 
 \begin{frame}{Example: Create a basic Matlab script}
-This Matlab script (\texttt{test.m}) takes input parameters $a$ and $b$ and does a simple addition and multiplication which is saved to a unique file. We want to run this for a set of $a$ and $b$ parameter values.
+This Matlab script (\texttt{test.m}) takes input parameters $a$ and $b$ and does a simple addition and multiplication which is saved to a unique file. We want to run this simulation for multiple pairs of parameter values.
 \begin{figure}
 \includegraphics[width=.8\linewidth]{figures/matlab_code_annotated.pdf}	
 \end{figure}
@@ -140,12 +140,26 @@ export PATH=$HOME/local/bin:$HOME/work/math_server_talks:$PATH
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Example: Run GNU parallel}
+\begin{frame}[fragile]{Example: Run GNU parallel}
 \begin{itemize}
 	\item Make sure \texttt{test.m} and \texttt{parameters.txt} are in the current working directory (\texttt{{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}/work/math\_server\_talks/example1})
 	\item Execute \texttt{test\_parallel\_1host.sh} on the command line to run $5$ Matlab simulations, $2$ at a time.
 	\item As one simulation finishes GNU parallel automatically spawns the next simulation in the queue
 	\item Execute \texttt{clean\_stdout.sh} to extract the data displayed in standard out and save it in a comma separated list (if you want)
+\item \textbf{If you use GNU parallel you should cite the software}:
+\tiny
+\begin{verbatim}
+@book{tange_ole_2018_1146014,
+      author       = {Tange, Ole},
+      title        = {GNU Parallel 2018},
+      publisher    = {Ole Tange},
+      month        = Mar,
+      year         = 2018,
+      ISBN         = {9781387509881},
+      doi          = {10.5281/zenodo.1146014},
+      url          = {https://doi.org/10.5281/zenodo.1146014}
+}
+\end{verbatim}
 \end{itemize}
 \end{frame}
 

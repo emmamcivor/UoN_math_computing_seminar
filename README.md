@@ -175,4 +175,17 @@ test_parallel_1host.sh
 ```
 to run multiple instances of the `test.m` script in parallel. The saved files will be saved to the working directory which means you can keep everything together and have different folders for different parameter sets.
 
+#### Cite the software!
+If you use GNU parallel you should cite the software:
+```Latex
+@book{tange_ole_2018_1146014,
+      author       = {Tange, Ole},
+      title        = {GNU Parallel 2018},
+      publisher    = {Ole Tange},
+      month        = Mar,
+      year         = 2018,
+      ISBN         = {9781387509881},
+      doi          = {10.5281/zenodo.1146014},
+      url          = {https://doi.org/10.5281/zenodo.1146014}
+```
 
