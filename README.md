@@ -187,5 +187,6 @@ If you use GNU parallel you should cite the software:
       ISBN         = {9781387509881},
       doi          = {10.5281/zenodo.1146014},
       url          = {https://doi.org/10.5281/zenodo.1146014}
+}
 ```
 
