@@ -49,24 +49,62 @@
 %\end{frame}
 
 %%%%%%
-\begin{frame}{What is GNU parallel and why use it?}
+\begin{frame}{Outline}
 \begin{itemize}
-	\item GNU parallel is a tool that can execute jobs (e.g. a script to run a simulation) in parallel using one or more computers
-	\item GNU parallel is a shell script that wraps the script we want to execute which means we are not adding extra complexity into the simulation script (more complexity $\implies$ more chance of introducing errors!)
-	\item This means we can run multiple simulations simultaneously which can be useful for reducing the overall computation time required e.g. doing parameter scans
-	\item To use GNU parallel the simulations must be able to be run independently
+\item What is GNU parallel?
+\item Building a basic example
+\item Future: build a basic example in Julia?
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Example: Creating a basic Matlab script in parallel}
-This Matlab script (\texttt{test.m}) does a simple addition and multiplication which is saved to a file:
+\begin{frame}{What is GNU parallel and why use it?}
+\begin{itemize}
+	\item GNU parallel is a tool that can execute independent jobs (e.g. a script to run a simulation) in parallel using one or more computers
+	\item To run GNU parallel we create a shell file (\texttt{.sh}) that wraps the script we want to execute. This is good because it means we are not adding extra complexity into the simulation script (more complexity $\implies$ more chance of introducing errors!)
+	\item GNU parallel allows us to run multiple simulations simultaneously which can be useful for reducing the overall computation time required e.g. doing parameter scans
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Setting up GNU parallel}
+\begin{itemize}
+\item See README.md on GitHub \url{https://github.com/emmamcivor/UoN_math_computing_seminar}
+\item See GNU parallel documentation for additional installation help
+\item All files used today are available from the GitHub repo so you can practise and make your own scripts to be run in parallel
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Running GNU parallel}
+\begin{enumerate}
+\item Make a working directory with the script you want to run in parallel e.g. \texttt{test.m}
+\item Make a parameter list in a \texttt{parameter.txt} file with one set of parameters per line
+\item Create the shell scripts to run GNU parallel
+\begin{itemize}
+\item These don't have to be placed in the working directory
+\item I have placed them in the level above the working directory but I have added this folder to the local path on my \texttt{.bashrc} so I can run these shell scripts from the command line
+\end{itemize}
+\item \texttt{cd} into working directory and run shell script to run GNU parallel from command line
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Example: Create a basic Matlab script}
+This Matlab script (\texttt{test.m}) takes input parameters $a$ and $b$ and does a simple addition and multiplication which is saved to a unique file. We want to run this for a set of $a$ and $b$ parameter values.
 \begin{figure}
 \includegraphics[width=.8\linewidth]{figures/matlab_code_annotated.pdf}	
 \end{figure}
-
 \end{frame}
 
-\begin{frame}{Example: Creating a shell script to run a single instance of the Matlab script}
+\begin{frame}{Example: Create a parameter file with all necessary parameters}
+\begin{itemize}
+\item Create a file called \texttt{parameters.txt} containing all the parameters for the simulation
+\item Each line is a set of parameters
+\item I am using a comma separated format (I tell GNU parallel this later)
+\end{itemize}
+\begin{figure}
+\includegraphics[width=.05\linewidth]{figures/parameter_file.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Example: Create a shell script to run a single instance of the Matlab script}
 \begin{itemize}
 	\item Create a new shell script (\texttt{run\_test\_matlab.sh}) to initiate the Matlab simulation:
 \begin{figure}
@@ -76,41 +114,38 @@ This Matlab script (\texttt{test.m}) does a simple addition and multiplication w
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Example: Creating a parameter file with all necessary parameters}
+\begin{frame}{Example: Create a shell script to run multiple simulations in parallel}
 \begin{itemize}
-	\item Create a file called \texttt{parameters.txt} containing all the parameters for the simulation
-	\item I am using a comma separated format (I tell GNU parallel this later)
-\end{itemize}
+\item Create a new shell script (\texttt{test\_parallel\_1host.sh}) to run the Matlab simulations simultaneously/in parallel:
 \begin{figure}
-\includegraphics[width=.05\linewidth]{figures/parameter_file.png}
+\includegraphics[clip,trim=0in 2.5in 0in 2.5in,width=\linewidth]{figures/run_parallel_annotated.pdf}
 \end{figure}
-\end{frame}
-
-\begin{frame}{Example: Creating a shell script to run multiple simulations in parallel}
-\begin{itemize}
-	\item Create a new shell script (\texttt{test\_parallel\_1host.sh}) to run the Matlab simulation simultaneously:
-	\begin{figure}
-		\includegraphics[width=\linewidth]{figures/run_parallel.png}
-	\end{figure}
 \item Make sure this file is executable. If not, on the command line execute \\ \texttt{chmod u=rwx test\_parallel\_1host.sh}
-\item \texttt{--jobs 2 --load 50\% --noswap --nice 5} means
-run a maximum of two jobs concurrently on each server, each with a nice value of 5 (sets priority of jobs) and only start a new job if the load on the machine is less than 75\% (considers the number of CPUs)
-don't start jobs if the system is swapping
+\item This command is explained in deatil in the README.md of this repository and in GNU parallel documentation
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Example: Add folder with shell scripts to \texttt{\$PATH}}
+\begin{frame}[fragile]{Example: Make sure both shell scripts can be found on local path}
+This allows us to run the shell script inside any folder containing the Matlab script and parameter list. To do this:
 \begin{itemize}
-	\item This allows us to run the shell script from any folder 
+\item Suppose shell scripts are in the folder \texttt{{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}/work/math\_server\_talks}
+\item Open the \texttt{.bashrc} file e.g. \texttt{gedit {\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}/.bashrc}
+\item Modify the PATH to include this folder e.g. 
+\small
+\begin{verbatim}
+export PATH=$HOME/local/bin:$HOME/work/math_server_talks:$PATH
+\end{verbatim}
+\item Reload your .bashrc file so that the PATH is updated \\
+\texttt{. ./.bashrc}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Example: Run GNU parallel}
 \begin{itemize}
-	\item Make sure \texttt{test.m} and \texttt{parameters.txt} are in the current working directory
+	\item Make sure \texttt{test.m} and \texttt{parameters.txt} are in the current working directory (\texttt{{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}/work/math\_server\_talks/example1})
 	\item Execute \texttt{test\_parallel\_1host.sh} on the command line to run $5$ Matlab simulations, $2$ at a time.
 	\item As one simulation finishes GNU parallel automatically spawns the next simulation in the queue
-	\item Execute \texttt{clean\_stdout.sh} to extract the data displayed in standard out and save it in a comma separated list
+	\item Execute \texttt{clean\_stdout.sh} to extract the data displayed in standard out and save it in a comma separated list (if you want)
 \end{itemize}
 \end{frame}
 

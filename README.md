@@ -1,7 +1,7 @@
 # Instructions for concurrently executing instances of a script (a basic example)
 This page describes how I use [GNU parallel](https://www.gnu.org/software/parallel/) to execute instances of the script concurrently on multiple cores of a server. This is based on a page giving instructions for concurrently executing scripts by Anthony Hennessey. Unfortunately, this page is no longer available on the University workspace.
 
-*Use Case*: Execute a processor intensive script multiple times with different inputs. Each execution of the script is independent of all other executions of the script.
+**Use Case**: Execute a processor intensive script multiple times with different inputs. Each execution of the script is independent of all other executions of the script.
 
 *Further requirements*:
 - we do not want to hog resources; we must share resources `nice` -ly. This reduces the priority of the processes. (UoN staff: this is described by the [considerate shared use of linux servers](https://workspace.nottingham.ac.uk/pages/viewpage.action?spaceKey=Maths&title=Considerate+shared+use+of+linux+servers) page)
@@ -9,7 +9,7 @@ This page describes how I use [GNU parallel](https://www.gnu.org/software/parall
 - if our scripts are stopped we should be able to restart from where we left off (once we have fixed the issue that resulted in it being
 
 *Some further things we must do*:
--before we leave our handy work unattended let the UNIX Systems Officer know what you have done; just a quick email with details on how to stop it if it is causing a problem
+- before we leave our handy work unattended let the UNIX Systems Officer know what you have done; just a quick email with details on how to stop it if it is causing a problem
 
 ## Things you may need to do before you start:
 - install GNU Parallel locally if it is not available.
@@ -42,8 +42,8 @@ man parallel
 ```
 
 ## The procedure
-### Check if the server status
-You can use `top` to check the status of the server/machine you want to run multiple processes on. 
+### Check the server status
+You can use `top` to check the status of the server/machine you want to run multiple processes on
 
 ### Prepare some input files
 I will assume you are in a `screen` session on one of the machines and want to run multiple instances of the (Matlab) script `test.m` concurrently on this machine.
@@ -154,10 +154,10 @@ gedit ~/.bashrc
 This opens a text editor so you can annotate the .bashrc file. Modify the `$PATH` to the following:
 
 ```Linux
-export PATH=$HOME/local/bin:$HOME/work/math_server_talks:$PATH$
+export PATH=$HOME/local/bin:$HOME/work/math_server_talks:$PATH
 ```
 
-so that `test_parallel_1host.sh` can be ran directly on the command line.
+and reload your .bashrc file so the PATH is updated tio allow `test_parallel_1host.sh` to be run directly on the command line.
 
 #### Summary
 1. Make sure the shell scripts are all executable (if not, make executable: `chmod u=wrx <filename.sh>`)
@@ -166,11 +166,13 @@ so that `test_parallel_1host.sh` can be ran directly on the command line.
 test_parallel
 ```
 on the command line and press 'tab' to complete the filename. If the file is on the local path then it will complete if not you need to modify the local path in the `.bashrc` file.
+
 3. Make sure the working directory contains the `test.m` script and `parameters.txt` file. 
-4. Type 
+
+4. On the command line type 
 ```Linux
 test_parallel_1host.sh
 ```
-on the command line to run multiple instances of the `test.m` script in parallel. The saved files will be saved to the working directory which means you can keep everything together and have different folders for different parameter sets.
+to run multiple instances of the `test.m` script in parallel. The saved files will be saved to the working directory which means you can keep everything together and have different folders for different parameter sets.
 
 
