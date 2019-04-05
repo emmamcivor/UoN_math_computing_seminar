@@ -192,3 +192,12 @@ If you use GNU parallel you should cite the software:
 }
 ```
 
+## Example for concurrently executing multiple instances of a Julia script
+### Example created with Yi Ming and Charline Tessereau
+
+1. Move into the example Julia working directory:\\
+`cd example_julia` 
+
+2. Execute the shell script (make sure the shell script is in the main folder which should already be on the local path) by typing `test_parallel_julia.sh` on the command line.
+
+3. This will execute 5 simulations with unique parameter sets which are saved in the working directory. The filenames use the parameter values to ensure the filenames are unique.
